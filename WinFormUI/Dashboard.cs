@@ -55,6 +55,7 @@ namespace WinFormUI
         {
             errorMessage.Text = $"You had an overdraft protection transfer of " +
                 $"{ string.Format("{0:C2}", e.AmountOverdrafted)}";
+            e.CancelTransaction = true;
             errorMessage.Visible = true;
         }
 

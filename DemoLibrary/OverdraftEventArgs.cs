@@ -12,6 +12,8 @@ namespace DemoLibrary
 
         public string MoreInfo { get; private set; }
 
+        public bool CancelTransaction = false;
+
         public OverdraftEventArgs(decimal amountOverdrafted, string moreInfo)
         {
             AmountOverdrafted = amountOverdrafted;
