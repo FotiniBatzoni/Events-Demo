@@ -8,6 +8,8 @@ namespace DemoLibrary
 {
     public class Account
     {
+        public event EventHandler<string> RaiseTransactionApprovedEvent;
+
         public string AccountName { get; set; }
         public decimal Balance { get; private set; }
 
@@ -22,6 +24,8 @@ namespace DemoLibrary
         {
             _transactions.Add($"Deposited { string.Format("{0:C2}", amount) } for { depositName }");
             Balance += amount;
+            //? means if this is not null then you can invoke it
+            RaiseTransactionApprovedEvent?.Invoke(this, depositName);
             return true;
         }
 
@@ -32,6 +36,7 @@ namespace DemoLibrary
             {
                 _transactions.Add($"Withdrew { string.Format("{0:C2}", amount) } for { paymentName }");
                 Balance -= amount;
+                RaiseTransactionApprovedEvent?.Invoke(this, paymentName);
                 return true;
             }
             else
@@ -40,7 +45,7 @@ namespace DemoLibrary
                 if (backupAccount != null)
                 {
                     // Checks to see if we have enough money in the backup account
-                    if ((backupAccount.Balance + Balance) > amount)
+                    if ((backupAccount.Balance + Balance) >= amount)
                     {
                         // We have enough backup funds so transfar the amount to this account
                         // and then complete the transaction.
@@ -58,6 +63,7 @@ namespace DemoLibrary
 
                         _transactions.Add($"Withdrew { string.Format("{0:C2}", amount) } for { paymentName }");
                         Balance -= amount;
+                        RaiseTransactionApprovedEvent?.Invoke(this, paymentName);
 
                         return true;
                     }

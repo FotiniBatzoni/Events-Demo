@@ -46,6 +46,8 @@ namespace WinFormUI
             savingsBalanceValue.Text = string.Format("{0:C2}", customer.SavingsAccount.Balance);
         }
 
+
+        //The event handler
         private void recordTransactionsButton_Click(object sender, EventArgs e)
         {
             Transactions transactions = new Transactions(customer);
