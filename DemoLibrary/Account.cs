@@ -10,7 +10,7 @@ namespace DemoLibrary
     {
         public event EventHandler<string> TransactionApprovedEvent;
 
-        public event EventHandler<decimal> OverdraftEvent;
+        public event EventHandler<OverdraftEventArgs> OverdraftEvent;
 
         public string AccountName { get; set; }
         public decimal Balance { get; private set; }
@@ -66,7 +66,7 @@ namespace DemoLibrary
                         _transactions.Add($"Withdrew { string.Format("{0:C2}", amount) } for { paymentName }");
                         Balance -= amount;
                         TransactionApprovedEvent?.Invoke(this, paymentName);
-                        OverdraftEvent?.Invoke(this, amountNeeded);
+                        OverdraftEvent?.Invoke(this, new OverdraftEventArgs(amountNeeded, "Extra info"));
 
                         return true;
                     }
